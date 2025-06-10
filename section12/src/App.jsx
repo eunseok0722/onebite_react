@@ -64,7 +64,7 @@ function App() {
   const [data, dispatch] = useReducer(reducer, mockData);
 
   // 일기 초기 데이터 3
-  const idRef = useRef(3);
+  const idRef = useRef(4);
 
   // 새로운 일기 추가
   const onCreate = (createdDate, emotionId, content) => {
