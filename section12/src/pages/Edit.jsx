@@ -4,31 +4,21 @@ import Header from "../components/Header";
 import Button from "../components/Button";
 import Editor from "../components/Editor";
 import {DiaryStateContext, DiaryDispatchContext} from "../App";
+import useDiary from "../hooks/useDiary";
 
 const Edit = () => {
   const nav = useNavigate();
   const params = useParams();
-  const data = useContext(DiaryStateContext);
+  
   const {onDelete, onUpdate} = useContext(DiaryDispatchContext);
-  const [currentDiaryItem, setCurrentDiaryItem] = useState();
 
-  useEffect(() => {
-    // 형이 다를 수 있기 때문에 문자열로 모두 변환하여 정리
-    const currentDiaryItem = data.find((item) => String(item.id) === String(params.id));
+  const curDiaryItem = useDiary(params.id);
+  // 처음 호출 시 undefined 호출되기 때문에 해당 내용을 처리하는 로직 필요
+  if (!curDiaryItem) {
+    return <div>데이터 로딩중...!</div>
+  }
+  const {createdDate, emotionId, content} = curDiaryItem;
 
-    if (!currentDiaryItem) {
-      window.alert("존재하지 않는 일기입니다.");
-
-      // 컴포넌트가 호출될 때 랜더링 하고 싶을 경우 위 경우 랜더링 되지 않는다.
-      // 컴포넌트가 랜더링 된 다음에 사용되는 기능이기 때문이다.
-      // useEffect hook 사용하면 된다.
-      nav("/", {replace: true});
-    }
-
-    setCurrentDiaryItem(currentDiaryItem);
-  // }, [params.id, data]);
-  // react-router-dom에서 useNavitage 훅이 동기로 진행하다가 비동기로 진행하는 것으로 변경됨
-  }, [params.id]);
 
   const onClickDelete = () => {
     if (window.confirm("일기를 정말 삭제할까요?")) {
@@ -78,7 +68,7 @@ const Edit = () => {
         }
         rightChild={<Button text="삭제하기" type={"NEGATIVE"} onClick={onClickDelete} />}
       />
-      <Editor initData={currentDiaryItem} onSubmit={onSubmit} />
+      <Editor initData={curDiaryItem} onSubmit={onSubmit} />
     </div>
   );
 };
