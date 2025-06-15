@@ -5,20 +5,21 @@ import Button from "../components/Button";
 import Editor from "../components/Editor";
 import {DiaryStateContext, DiaryDispatchContext} from "../App";
 import useDiary from "../hooks/useDiary";
+import usePageTitle from "../hooks/usePageTitle";
 
 const Edit = () => {
   const nav = useNavigate();
   const params = useParams();
-  
   const {onDelete, onUpdate} = useContext(DiaryDispatchContext);
+  usePageTitle(`감정일기장 | ${params.id}번 일기 수정`);
+
 
   const curDiaryItem = useDiary(params.id);
   // 처음 호출 시 undefined 호출되기 때문에 해당 내용을 처리하는 로직 필요
   if (!curDiaryItem) {
-    return <div>데이터 로딩중...!</div>
+    return <div>데이터 로딩중...!</div>;
   }
   const {createdDate, emotionId, content} = curDiaryItem;
-
 
   const onClickDelete = () => {
     if (window.confirm("일기를 정말 삭제할까요?")) {
