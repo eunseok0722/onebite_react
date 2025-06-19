@@ -19,9 +19,8 @@ import useDiaryStore from "./store/useDiaryStore.js";
 // App 컴포넌트
 const App = () => {
   // useDiaryStore: 일기 데이터 상태 관리
-  // const {isLoading, initData, setIsLoading, setIdRef} = useDiaryStore();
   const isLoading = useDiaryStore((state) => state.isLoading);
-  const initData = useDiaryStore((state) => state.initData);
+  const initDiary = useDiaryStore((state) => state.initDiary);
   const setIsLoading = useDiaryStore((state) => state.setIsLoading);
   const setIdRef = useDiaryStore((state) => state.setIdRef);
   
@@ -57,7 +56,7 @@ const App = () => {
       }
     });
     setIdRef(maxId + 1);
-    initData(parsedData);
+    initDiary(parsedData);
     setIsLoading(false);
   }, []);
 

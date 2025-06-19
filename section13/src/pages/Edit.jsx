@@ -22,8 +22,6 @@ const Edit = () => {
     return <div>데이터 로딩중...!</div>;
   }
 
-  // const {createdDate, emotionId, content} = curDiaryItem;
-
   const onClickDelete = () => {
     if (window.confirm("일기를 정말 삭제할까요?")) {
       // 일기 삭제하는 로직

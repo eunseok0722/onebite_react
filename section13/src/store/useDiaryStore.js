@@ -5,8 +5,7 @@ const useDiaryStore = create((set, get) => ({
   isLoading: true, // 로딩 상태
   data: [], // 일기 데이터
   idRef: 0, // 일기 데이터의 고유 번호
-  nextState: [], // 일기 데이터 생성 후 상태
-  initData: (data) => set({data}), // 일기 데이터 초기화
+  initDiary: (data) => set({data}), // 일기 데이터 초기화
   createDiary: (newData) => {
     const newItem = {
       id: get().idRef,
