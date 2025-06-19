@@ -14,7 +14,6 @@ const useDiary = (id) => {
     if (!currentDiaryItem) {
       window.alert("존재하지 않는 일기입니다.");
 
-      // 컴포넌트가 호출될 때 랜더링 하고 싶을 경우 위 경우 랜더링 되지 않는다.
       // 컴포넌트가 랜더링 된 다음에 사용되는 기능이기 때문이다.
       // useEffect hook 사용하면 된다.
       nav("/", {replace: true});

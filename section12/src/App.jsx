@@ -17,6 +17,8 @@ import mockData from "./api/mock-data.json";
 // 4. "/diary/:id" : 특정 일기를 조회하는 Diary
 // 5. * :  와일드카드, 위 경로가 아닌 경우 404 페이지 보여주기
 
+
+// reducer : 상태 관리 함수
 function reducer(state, action) {
   let nextState;
 
@@ -47,14 +49,14 @@ function reducer(state, action) {
   return nextState;
 }
 
+// 컨텍스트 생성
 export const DiaryStateContext = createContext();
 export const DiaryDispatchContext = createContext();
 
+// App 컴포넌트
 function App() {
   // 로딩 문제를 해결하기 위한 로딩 상태 저장
   const [isLoading, setIsLoading] = useState(true);
-
-  // const [data, dispatch] = useReducer(reducer, mockData);
   const [data, dispatch] = useReducer(reducer, []);
   const idRef = useRef(0);
 

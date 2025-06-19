@@ -7,6 +7,7 @@ import Button from "../components/Button";
 import DiaryList from "../components/DiaryList";
 import usePageTitle from "../hooks/usePageTitle";
 
+// getMonthlyData : 해당 월의 데이터를 가져오는 함수
 const getMonthlyData = (pivotDate, data) => {
   // 1일 = 해당 월의 첫 날짜의 0시 0분 0초
   const beginTime = new Date(pivotDate.getFullYear(), pivotDate.getMonth(), 1, 0, 0, 0);
@@ -15,6 +16,7 @@ const getMonthlyData = (pivotDate, data) => {
   return data.filter((item) => item.createdDate >= beginTime && item.createdDate <= endTime);
 };
 
+// Home 컴포넌트
 const Home = () => {
   // 쿼리 파라미터 사용하는 방법
   // const [params, setParams] = useSearchParams();
