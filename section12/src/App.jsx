@@ -1,14 +1,11 @@
 import "./App.css";
 import {useReducer, useRef, createContext, useEffect, useState, useLayoutEffect} from "react";
-import {Routes, Route, Link, useNavigate} from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import Home from "./pages/Home";
 import New from "./pages/New";
 import Diary from "./pages/Diary";
 import NotFound from "./pages/NotFound";
 import Edit from "./pages/Edit";
-import Button from "./components/Button";
-import Header from "./components/Header";
-import {getEmotionImage} from "./util/get-emotion-images.js";
 import mockData from "./api/mock-data.json";
 
 // 1. "/" : 모든 일기를 조회하는 Home
@@ -17,6 +14,9 @@ import mockData from "./api/mock-data.json";
 // 4. "/diary/:id" : 특정 일기를 조회하는 Diary
 // 5. * :  와일드카드, 위 경로가 아닌 경우 404 페이지 보여주기
 
+// createContext: 컨텍스트 생성
+export const DiaryStateContext = createContext();
+export const DiaryDispatchContext = createContext();
 
 // reducer : 상태 관리 함수
 function reducer(state, action) {
@@ -25,17 +25,17 @@ function reducer(state, action) {
   switch (action.type) {
     case "INIT":
       return action.data;
-    case "CREATE": // return [action.data, ...state];
+    case "CREATE":
     {
       nextState = [action.data, ...state];
       break;
     }
-    case "UPDATE": // return state.map((item) => (String(item.id) === String(action.data.id) ? action.data : item));
+    case "UPDATE":
     {
       nextState = state.map((item) => (String(item.id) === String(action.data.id) ? action.data : item));
       break;
     }
-    case "DELETE": // return state.filter((item) => String(item.id) !== String(action.targetId));
+    case "DELETE":
     {
       nextState = state.filter((item) => String(item.id) !== String(action.targetId));
       break;
@@ -45,22 +45,22 @@ function reducer(state, action) {
   }
 
   localStorage.setItem("diary", JSON.stringify(nextState));
-  console.log(nextState);
   return nextState;
 }
 
-// 컨텍스트 생성
-export const DiaryStateContext = createContext();
-export const DiaryDispatchContext = createContext();
 
 // App 컴포넌트
-function App() {
-  // 로딩 문제를 해결하기 위한 로딩 상태 저장
+const App = () => {
+  // useState: 로딩 문제를 해결하기 위한 로딩 상태 저장
   const [isLoading, setIsLoading] = useState(true);
+
+  // useReducer: 일기 데이터 상태 변화 관리
   const [data, dispatch] = useReducer(reducer, []);
+  
+  // useRef: 일기 데이터의 고유 번호 관리
   const idRef = useRef(0);
 
-  //
+  // useLayoutEffect: 데이터 초기화
   useLayoutEffect(() => {
     // 데이터가 없을 경우 mockdata 저장
     const storedData = localStorage.getItem("diary");
@@ -69,6 +69,7 @@ function App() {
     }
   });
 
+  // useEffect: 데이터 초기화
   useEffect(() => {
     const storedData = localStorage.getItem("diary");
     if (!storedData) {
@@ -82,6 +83,7 @@ function App() {
       return;
     }
 
+    // 데이터의 최대 번호 찾기
     let maxId = 0;
     parsedData.forEach((item) => {
       if (Number(item.id) > maxId) {
@@ -96,19 +98,6 @@ function App() {
     });
     setIsLoading(false);
   }, []);
-
-  // localStorage 사용법
-
-  // 데이터 저장
-  // localStorage.setItem("test", "hello");
-  // localStorage.setItem("person", JSON.stringify({name: "이정환"}));
-
-  // 데이터 조회
-  // console.log(localStorage.getItem("test"));
-  // console.log(JSON.parse(localStorage.getItem("person")));
-
-  // 데이터 삭제
-  // localStorage.removeItem("test");
 
   // 새로운 일기 추가
   const onCreate = (createdDate, emotionId, content) => {

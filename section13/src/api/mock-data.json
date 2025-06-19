@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "createdDate": 1750118400000,
+    "emotionId": 1,
+    "content": "1번 일기내용"
+  },
+  {
+    "id": 2,
+    "createdDate": 1750204800000,
+    "emotionId": 2,
+    "content": "2번 일기내용"
+  },
+  {
+    "id": 3,
+    "createdDate": 1750291200000,
+    "emotionId": 3,
+    "content": "3번 일기내용"
+  }
+]

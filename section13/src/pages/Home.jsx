@@ -1,8 +1,8 @@
-import {useState, useContext} from "react";
+import {useState} from "react";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import DiaryList from "../components/DiaryList";
-import {DiaryStateContext} from "../App";
+import useDiaryStore from "../store/useDiaryStore.js";
 import usePageTitle from "../hooks/usePageTitle";
 
 // getMonthlyData : 해당 월의 시작점과 끝점을 반환하는 함수
@@ -16,9 +16,9 @@ const getMonthlyData = (pivotDate, data) => {
 
 // Home 컴포넌트
 const Home = () => {
-  // useContext: 일기 데이터 컨텍스트 호출
-  const data = useContext(DiaryStateContext);
-  // pibotDate: 현재 기준 날짜, 초기값으로 오늘 날짜 저장
+  // useDiaryStore: 일기 데이터 스토어 호출 (선택적 구독)
+  const data = useDiaryStore((state) => state.data);
+  // pivotDate: 현재 기준 날짜, 초기값으로 오늘 날짜 저장
   const [pivotDate, setPivotDate] = useState(new Date());
 
   // usePageTitle: 페이지 타이틀 설정

@@ -1,10 +1,10 @@
-import {useContext, useState, useEffect} from "react";
-import {DiaryStateContext} from "../App";
+import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
+import useDiaryStore from "../store/useDiaryStore.js";
 
 const useDiary = (id) => {
-  // useContext: 일기 데이터 컨텍스트 호출
-  const data = useContext(DiaryStateContext);
+  // useDiaryStore: 일기 데이터 스토어 호출 (선택적 구독)
+  const data = useDiaryStore((state) => state.data);
 
   // useState: 현재 일기 아이템 저장
   const [curDiaryItem, setCurDiaryItem] = useState();

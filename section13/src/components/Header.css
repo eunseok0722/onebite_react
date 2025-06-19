@@ -1,0 +1,31 @@
+.Header {
+  display: flex;
+  align-items: center;
+  padding: 20px 0px;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.Header > div {
+  display: flex;
+  
+}
+
+.Header .header_center {
+  width: 50%;
+  font-size: 25px;
+  justify-content: center;
+}
+
+.Header .header_left, 
+.Header .header_right {
+  width: 25%;
+  justify-content: center;
+}
+
+.Header .header_left {
+  justify-content: flex-start;  
+}
+
+.Header .header_right {
+  justify-content: flex-end;
+}

@@ -1,16 +1,17 @@
 import {useParams, useNavigate} from "react-router-dom";
-import {useContext} from "react";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import Editor from "../components/Editor";
-import { DiaryDispatchContext} from "../App";
+import useDiaryStore from "../store/useDiaryStore.js";
 import useDiary from "../hooks/useDiary";
 import usePageTitle from "../hooks/usePageTitle";
 
 const Edit = () => {
   const nav = useNavigate();
   const params = useParams();
-  const {onDelete, onUpdate} = useContext(DiaryDispatchContext);
+  // useDiaryStore: 일기 데이터 스토어 호출 (선택적 구독)
+  const deleteDiary = useDiaryStore((state) => state.deleteDiary);
+  const updateDiary = useDiaryStore((state) => state.updateDiary);
   usePageTitle(`감정일기장 | ${params.id}번 일기 수정`);
 
   // useDiary: 현재 일기 아이템 호출
@@ -20,12 +21,13 @@ const Edit = () => {
   if (!curDiaryItem) {
     return <div>데이터 로딩중...!</div>;
   }
-  const {createdDate, emotionId, content} = curDiaryItem;
+
+  // const {createdDate, emotionId, content} = curDiaryItem;
 
   const onClickDelete = () => {
     if (window.confirm("일기를 정말 삭제할까요?")) {
       // 일기 삭제하는 로직
-      onDelete(params.id);
+      deleteDiary(params.id);
       // 뒤로가기 버튼 누르면 삭제된 일기 페이지로 이동하지 않게 하기 위해 replace 옵션 사용
       nav("/", {replace: true});
     }
@@ -33,7 +35,7 @@ const Edit = () => {
 
   const onSubmit = (input) => {
     if (window.confirm("일기를 수정할까요?")) {
-      onUpdate(params.id, input.createdDate.getTime(), input.emotionId, input.content);
+      updateDiary(params.id, input.createdDate, input.emotionId, input.content);
       nav("/", {replace: true});
     }
   };
